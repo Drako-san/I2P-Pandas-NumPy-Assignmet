@@ -1,0 +1,18 @@
+import time
+import matplotlib
+from matplotlib import pyplot as plt
+import numpy as np
+import pandas as pd 
+
+data = pd.read_csv(r"C:\Users\Raffles Teh weihan\Documents\activity\activity.csv") 
+
+interval = []
+steps = []
+for x in data['interval'].unique():
+    interval.append(x)
+    steps.append(data.loc[data['interval']==x, 'steps'].dropna().mean())
+
+z = pd.DataFrame({'Interval':interval, 'Steps':steps})
+z.plot.line(x="Interval", y="Steps")
+plt.title('Average steps taken in 5 min')
+plt.show()
