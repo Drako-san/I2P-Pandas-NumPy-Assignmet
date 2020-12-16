@@ -1,0 +1,20 @@
+import time
+import matplotlib
+from matplotlib import pyplot as plt
+import numpy as np
+import pandas as pd 
+data = pd.read_csv(r"C:\Users\Raffles Teh weihan\Documents\activity\activity.csv") 
+data['steps'].dropna().sum()
+data['date'] = pd.to_datetime(data['date'])
+data['steps'] = data['steps'].replace(np.nan, 0)
+print(data)
+days = []
+steps = []
+for z in data['date'].unique():
+    days.append(z)
+    steps.append(data.loc[data['date']==z, 'steps'].sum())
+data = pd.DataFrame({"Days": days, "Steps": steps})
+x = data.plot.bar(x="Days", y="Steps")
+plt.show()
+print(data.groupby(data['date']).mean())
+print(data.groupby(data['date']).sum())
