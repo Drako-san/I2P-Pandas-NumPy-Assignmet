@@ -1,0 +1,16 @@
+import pandas as pd
+from matplotlib import pyplot as plt
+data = pd.read_csv(r"C:\Users\Raffles Teh weihan\Documents\activity\activity.csv")
+days = []
+steps = []
+for x in data['date'].unique():
+    days.append(x)
+    steps.append(data.loc[data['date'] == x, 'steps'].dropna().sum())
+dfa = pd.DataFrame({'Days':days, 'Steps':steps})
+ax = dfa.plot.bar(x= 'Days', y= 'Steps', width=0.5 , color='blue')
+plt.title('Total Steps Taken Each Day')
+plt.xlabel('Days')
+plt.ylabel('Steps')
+plt.show()
+print(f"Mean: {dfa.mean().item()}")
+print(f"Median: {dfa.median().item()}")
