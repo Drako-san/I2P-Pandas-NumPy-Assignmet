@@ -1,0 +1,26 @@
+import datetime
+import matplotlib
+import calendar
+from matplotlib import pyplot as plt
+import pandas as pd 
+data = pd.read_csv(r"C:\Users\Raffles Teh weihan\Documents\activity\activity.csv") 
+def FD(date):
+    weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+    the_date = datetime.datetime.strptime(date, '%Y-%m-%d').weekday() 
+    if calendar.day_name[the_date] in weekdays:
+        return 'weekday'
+    else:
+        return 'weekend' 
+data['day'] = data['date'].apply(FD)
+interval = []
+steps_weekday = []
+steps_weekend = []
+for x in data['interval'].unique():
+    interval.append(x)
+    steps_weekday.append(data.loc[(data['interval']==x) & (data['day']=='weekday'), 'steps'].dropna().mean())
+    steps_weekend.append(data.loc[(data['interval']==x) & (data['day']=='weekend'), 'steps'].dropna().mean())
+dfa = pd.DataFrame({'Interval':interval, 'Weekday': steps_weekday,'Weekend':steps_weekend})
+dfa.plot.line(x ='Interval')
+plt.title('Average steps taken in 5 min')
+plt.ylabel('Steps')
+plt.show()
